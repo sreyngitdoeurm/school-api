@@ -13,7 +13,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        // 
+        return Post::get();
     }
 
     /**
@@ -25,6 +26,12 @@ class PostController extends Controller
     public function store(Request $request)
     {
         //
+        $post = new Post();
+        $post->title = $request->title;
+        $post->body = $request->body;
+        $post->user_id = $request->user_id;
+        $post->save();
+        return response()->json("Post Created!");  
     }
 
     /**
@@ -36,6 +43,7 @@ class PostController extends Controller
     public function show($id)
     {
         //
+        return Post::findOrFail($id);
     }
 
     /**
@@ -48,6 +56,12 @@ class PostController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $post =Post::findOrFail($id);
+        $post->title = $request->title;
+        $post->body = $request->body;
+        $post->user_id = $request->user_id;
+        $post->save();
+        return response()->json("Post Updated!");
     }
 
     /**
@@ -59,5 +73,9 @@ class PostController extends Controller
     public function destroy($id)
     {
         //
+        $isDelete = Post::destroy($id);
+        if($isDelete){
+            return response()->json("Post Deleted!");
+        }
     }
 }
